@@ -1,23 +1,35 @@
-import React, { FunctionComponent } from 'react';
-import { WithStyles, StyleRules, CSSProperties, CreateCSSProperties, PropsFunc } from '@mui/styles';
-import { Theme } from '@mui/material/styles';
+import React, { CSSProperties, FunctionComponent } from 'react';
 import { EditorState, DraftHandleValue, SelectionState } from 'draft-js';
+import { Theme } from '@mui/material/styles';
 
 // Autocomplete
+
+declare module '@mui/material/styles' {
+    interface Theme {
+        custom: any;
+        vh100: string;
+        guest?: boolean;
+    }
+
+    interface ThemeOptions {
+        custom?: any;
+        vh100?: string;
+        guest?: boolean;
+    }
+}
 
 export declare type TAutocompleteItem = {
     keys: string[];
     value: any;
     content: string | JSX.Element;
 };
-interface TAutocompleteProps extends WithStyles<typeof AutocompleteStyles> {
+interface TAutocompleteProps {
     items: TAutocompleteItem[];
     top: number;
     left: number;
     selectedIndex: number;
     onClick: (selectedIndex: number) => void;
 }
-declare const AutocompleteStyles: () => Record<"container" | "item", import("@mui/styles").CSSProperties | import("@mui/styles").CreateCSSProperties<{}> | import("@mui/styles").PropsFunc<{}, import("@mui/styles").CreateCSSProperties<{}>>>;
 export declare const Autocomplete: React.ComponentType<Pick<React.PropsWithChildren<TAutocompleteProps>, "left" | "top" | "children" | "onClick" | "items" | "selectedIndex"> & import("@mui/material/styles").StyledComponentProps<"container" | "item">>;
 
 // ToolbarButton
@@ -140,28 +152,28 @@ export declare type TMUIRichTextEditorProps = {
     onFocus?: () => void;
     onBlur?: () => void;
 };
-interface IMUIRichTextEditorProps extends TMUIRichTextEditorProps, WithStyles<typeof MUIRichTextEditorStyles> {
+interface IMUIRichTextEditorProps extends TMUIRichTextEditorProps {
 }
 export interface TMUIRichTextEditorStyles {
     overrides?: {
         MUIRichTextEditor?: {
-            root?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            container?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            inheritFontSize?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            editor?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            editorContainer?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            editorReadOnly?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            error?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            hidePlaceholder?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            placeHolder?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            linkPopover?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            linkTextField?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            anchorLink?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            toolbar?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-            inlineToolbar?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>;
-        };
-    };
+            root?: CSSProperties,
+            container?: CSSProperties,
+            inheritFontSize?: CSSProperties,
+            editor?: CSSProperties,
+            editorContainer?: CSSProperties,
+            editorReadOnly?: CSSProperties,
+            error?: CSSProperties,
+            hidePlaceholder?: CSSProperties,
+            placeHolder?: CSSProperties,
+            linkPopover?: CSSProperties,
+            linkTextField?: CSSProperties,
+            anchorLink?: CSSProperties,
+            toolbar?: CSSProperties,
+            inlineToolbar?: CSSProperties
+        }
+    }
 }
-declare const MUIRichTextEditorStyles: (theme: Theme & TMUIRichTextEditorStyles) => StyleRules<{}, "error" | "toolbar" | "root" | "container" | "inheritFontSize" | "editor" | "editorContainer" | "editorReadOnly" | "hidePlaceholder" | "placeHolder" | "linkPopover" | "linkTextField" | "anchorLink" | "inlineToolbar">;
-declare const MUIRichTextEditor: import("react").JSXElementConstructor<Omit<IMUIRichTextEditorProps & import("react").RefAttributes<TMUIRichTextEditorRef>, "classes" | "theme"> & import("@mui/styles").StyledComponentProps<"error" | "toolbar" | "root" | "container" | "inheritFontSize" | "editor" | "editorContainer" | "editorReadOnly" | "hidePlaceholder" | "placeHolder" | "linkPopover" | "linkTextField" | "anchorLink" | "inlineToolbar">>;
+declare const MUIRichTextEditorStyles: (theme: Theme & TMUIRichTextEditorStyles) => any;
+declare const MUIRichTextEditor: import("react").JSXElementConstructor<Omit<IMUIRichTextEditorProps & import("react").RefAttributes<TMUIRichTextEditorRef>, "classes" | "theme"> & any>;
 export default MUIRichTextEditor;

@@ -1,43 +1,46 @@
-import React, { FunctionComponent } from 'react'
-import { Paper, List, ListItem } from '@mui/material'
-import { createStyles, withStyles, WithStyles } from '@mui/styles'
+import React, { FunctionComponent } from 'react';
+import { Paper, List, ListItem } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export type TAutocompleteItem = {
-    keys: string[]
-    value: any
-    content: string | JSX.Element
+    keys: string[];
+    value: any;
+    content: string | JSX.Element;
+};
+
+interface TAutocompleteProps {
+    items: TAutocompleteItem[];
+    top: number;
+    left: number;
+    selectedIndex: number;
+    onClick: (selectedIndex: number) => void;
 }
 
-interface TAutocompleteProps extends WithStyles<typeof styles> {
-    items: TAutocompleteItem[]
-    top: number
-    left: number
-    selectedIndex: number
-    onClick: (selectedIndex: number) => void
-}
+const PREFIX = 'Autocomplete';
 
-const styles = () => createStyles({
-    container: {
-        minWidth: "200px",
-        position: "absolute",
+const classes = {
+    container: `${PREFIX}-container`,
+    item: `${PREFIX}-item`
+};
+
+const StyledPaper = styled(Paper)({
+    [`&.${classes.container}`]: {
+        minWidth: '200px',
+        position: 'absolute',
         zIndex: 10
     },
-    item: {
-        cursor: "pointer"
+    [`& .${classes.item}`]: {
+        cursor: 'pointer'
     }
-})
+});
 
 const Autocomplete: FunctionComponent<TAutocompleteProps> = (props) => {
     if (!props.items.length) {
-        return null
+        return null;
     }
 
-    const { classes } = props
     return (
-        <Paper className={classes.container} style={{
-            top: props.top,
-            left: props.left
-        }}>
+        <StyledPaper className={classes.container} style={{ top: props.top, left: props.left }}>
             <List dense={true}>
                 {props.items.map((item, index) => (
                     <ListItem
@@ -50,8 +53,8 @@ const Autocomplete: FunctionComponent<TAutocompleteProps> = (props) => {
                     </ListItem>
                 ))}
             </List>
-        </Paper>
-    )
-}
+        </StyledPaper>
+    );
+};
 
-export default withStyles(styles, { withTheme: true })(Autocomplete)
+export default Autocomplete;

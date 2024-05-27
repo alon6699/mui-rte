@@ -16,7 +16,7 @@ const KeyBindings = () => {
                 {
                     key: 67, // C
                     name: "clear-all",
-                    callback: (_) => {
+                    callback: (_: any) => {
                         return EditorState.createEmpty()
                     }
                 },

@@ -2,9 +2,8 @@ import React, { useRef, useState, FunctionComponent, useEffect } from 'react'
 import MUIRichTextEditor, { TMUIRichTextEditorRef } from '../..'
 import {
     Card, CardHeader, Avatar, CardMedia, CardContent,
-    Typography, IconButton, CardActions, Grid
+    Typography, IconButton, CardActions, Grid, styled
 } from '@mui/material'
-import { makeStyles } from '@mui/styles'
 import Popover from '@mui/material/Popover'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -34,28 +33,43 @@ type TMyCardPopoverState = {
     isCancelled: boolean
 }
 
-const cardPopverStyles = makeStyles({
-    root: {
+const popoverPrefix = 'MyCardPopover';
+
+const popoverClasses = {
+    root: `${popoverPrefix}-root`,
+    textField: `${popoverPrefix}-textField`
+};
+
+const PopoverStyled = styled(Popover)({
+    [`& .${popoverClasses.root}`]: {
         padding: 10,
         maxWidth: 350
     },
-    textField: {
-        width: "100%"
+    [`& .${popoverClasses.textField}`]: {
+        width: '100%'
     }
-})
+});
 
-const cardStyles = makeStyles({
-    root: {
+const PREFIX = 'MyCard';
+
+const cardClasses = {
+    root: `${PREFIX}-root`,
+    media: `${PREFIX}-media`,
+    avatar: `${PREFIX}-avatar`
+};
+
+const CardStyled = styled(Card)({
+    [`&.${cardClasses.root}`]: {
         maxWidth: 345
     },
-    media: {
+    [`& .${cardClasses.media}`]: {
         height: 0,
         paddingTop: '56.25%'
     },
-    avatar: {
-        backgroundColor: "tomato"
+    [`& .${cardClasses.avatar}`]: {
+        backgroundColor: 'tomato'
     }
-})
+});
 
 const save = (data: string) => {
     console.log(data)
@@ -63,7 +77,6 @@ const save = (data: string) => {
 
 const MyCard: FunctionComponent<any> = (props) => {
     const { blockProps } = props
-    const classes = cardStyles(props)
 
     const handleLiked = () => {
         alert("Favorited")
@@ -74,10 +87,10 @@ const MyCard: FunctionComponent<any> = (props) => {
     }
 
     return (
-        <Card className={classes.root}>
+        <CardStyled className={cardClasses.root}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="name" className={classes.avatar}>
+                    <Avatar aria-label="name" className={cardClasses.avatar}>
                         {blockProps.name && blockProps.name.substring(0, 1)}
                     </Avatar>
                 }
@@ -85,7 +98,7 @@ const MyCard: FunctionComponent<any> = (props) => {
                 subheader={blockProps.date && blockProps.date.toLocaleDateString()}
             />
             <CardMedia
-                className={classes.media}
+                className={cardClasses.media}
                 image={blockProps.image || "default"}
                 title={blockProps.title}
             />
@@ -107,12 +120,11 @@ const MyCard: FunctionComponent<any> = (props) => {
                     <ShareIcon />
                 </IconButton>
             </CardActions>
-        </Card>
+        </CardStyled>
     )
 }
 
 const MyCardPopover: FunctionComponent<IMyCardPopoverProps> = (props) => {
-    const classes = cardPopverStyles(props)
     const [state, setState] = useState<TMyCardPopoverState>({
         anchor: null,
         isCancelled: false
@@ -137,7 +149,7 @@ const MyCardPopover: FunctionComponent<IMyCardPopoverProps> = (props) => {
     }
 
     const textFieldProps = {
-        className: classes.textField,
+        className: popoverClasses.textField,
         onChange: handleChange,
         InputLabelProps: {
             shrink: true
@@ -145,7 +157,7 @@ const MyCardPopover: FunctionComponent<IMyCardPopoverProps> = (props) => {
     }
 
     return (
-        <Popover
+        <PopoverStyled
             anchorEl={state.anchor}
             open={state.anchor !== null}
             anchorOrigin={{
@@ -157,7 +169,7 @@ const MyCardPopover: FunctionComponent<IMyCardPopoverProps> = (props) => {
                 horizontal: 'left',
             }}
         >
-            <Grid container spacing={1} className={classes.root}>
+            <Grid container spacing={1} className={popoverClasses.root}>
                 <Grid item xs={6}>
                     <TextField
                         {...textFieldProps}
@@ -209,7 +221,7 @@ const MyCardPopover: FunctionComponent<IMyCardPopoverProps> = (props) => {
                     </Button>
                 </Grid>
             </Grid>
-        </Popover>
+        </PopoverStyled>
     )
 }
 
@@ -243,7 +255,7 @@ const AtomicCustomBlock: FunctionComponent = () => {
                         name: "add-card",
                         icon: <WebAssetIcon />,
                         type: "callback",
-                        onClick: (_editorState, _name, anchor) => {
+                        onClick: (_editorState: any, _name: any, anchor: any) => {
                             setAnchor(anchor)
                         }
                     }

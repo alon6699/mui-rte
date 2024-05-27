@@ -1,12 +1,10 @@
 import React, {
     FunctionComponent, useEffect, useState, useRef,
-    forwardRef, useImperativeHandle, ForwardRefRenderFunction
+    forwardRef, useImperativeHandle, CSSProperties
 } from 'react'
 import Immutable from 'immutable'
 import classNames from 'classnames'
-import { createStyles, withStyles, WithStyles, CSSProperties, CreateCSSProperties, PropsFunc } from '@mui/styles'
-import { Theme } from '@mui/material/styles'
-import { Paper } from '@mui/material'
+import { Paper, styled } from '@mui/material'
 import {
     Editor, EditorState, convertFromRaw, RichUtils, AtomicBlockUtils,
     CompositeDecorator, convertToRaw, DefaultDraftBlockRenderMap, DraftEditorCommand,
@@ -21,6 +19,7 @@ import CodeBlock from './components/CodeBlock'
 import UrlPopover, { TAlignment, TUrlData, TMediaType } from './components/UrlPopover'
 import Autocomplete, { TAutocompleteItem } from './components/Autocomplete'
 import { getSelectionInfo, removeBlockFromMap, atomicBlockExists, isGreaterThan, clearInlineStyles, getEditorBounds, getLineNumber, TPosition } from './utils'
+import { Theme } from '@mui/material/styles';
 
 export type TDecorator = {
     component: FunctionComponent
@@ -92,9 +91,9 @@ export type TMUIRichTextEditorProps = {
     onChange?: (state: EditorState) => void
     onFocus?: () => void
     onBlur?: () => void
-}
+} & any;
 
-interface IMUIRichTextEditorProps extends TMUIRichTextEditorProps, WithStyles<typeof styles> { }
+interface IMUIRichTextEditorProps extends TMUIRichTextEditorProps { }
 
 type TMUIRichTextEditorState = {
     anchorUrlPopover?: HTMLElement
@@ -112,74 +111,116 @@ type TStateOffset = {
 interface TMUIRichTextEditorStyles {
     overrides?: {
         MUIRichTextEditor?: {
-            root?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            container?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            inheritFontSize?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            editor?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            editorContainer?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            editorReadOnly?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            error?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            hidePlaceholder?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            placeHolder?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            linkPopover?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            linkTextField?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            anchorLink?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            toolbar?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>,
-            inlineToolbar?: CSSProperties | CreateCSSProperties<{}> | PropsFunc<{}, CreateCSSProperties<{}>>
+            root?: CSSProperties,
+            container?: CSSProperties,
+            inheritFontSize?: CSSProperties,
+            editor?: CSSProperties,
+            editorContainer?: CSSProperties,
+            editorReadOnly?: CSSProperties,
+            error?: CSSProperties,
+            hidePlaceholder?: CSSProperties,
+            placeHolder?: CSSProperties,
+            linkPopover?: CSSProperties,
+            linkTextField?: CSSProperties,
+            anchorLink?: CSSProperties,
+            toolbar?: CSSProperties,
+            inlineToolbar?: CSSProperties
         }
     }
 }
 
-const styles = (theme: Theme & TMUIRichTextEditorStyles) => createStyles({
-    root: theme?.overrides?.MUIRichTextEditor?.root || {},
-    container: theme?.overrides?.MUIRichTextEditor?.container || {
+const PREFIX = 'MUIRichTextEditor';
+
+const classes = {
+    root: `${PREFIX}-root`,
+    container: `${PREFIX}-container`,
+    inheritFontSize: `${PREFIX}-inheritFontSize`,
+    editor: `${PREFIX}-editor`,
+    editorContainer: `${PREFIX}-editorContainer`,
+    editorReadOnly: `${PREFIX}-editorReadOnly`,
+    error: `${PREFIX}-error`,
+    hidePlaceholder: `${PREFIX}-hidePlaceholder`,
+    placeHolder: `${PREFIX}-placeHolder`,
+    linkPopover: `${PREFIX}-linkPopover`,
+    linkTextField: `${PREFIX}-linkTextField`,
+    anchorLink: `${PREFIX}-anchorLink`,
+    toolbar: `${PREFIX}-toolbar`,
+    inlineToolbar: `${PREFIX}-inlineToolbar`
+};
+
+const applyOverrides = (
+    theme: any,
+    component: any
+) => theme?.overrides?.MUIRichTextEditor?.[component] || {};
+
+const StyledDiv = styled('div')(({ theme }: { theme: Theme & TMUIRichTextEditorStyles }) => ({
+    [`& .${classes.root}`]: {
+        ...applyOverrides(theme, 'root')
+    },
+    [`& .${classes.container}`]: {
+        ...applyOverrides(theme, 'container'),
         margin: theme.spacing(1, 0, 0, 0),
-        position: "relative",
+        position: 'relative',
         fontFamily: theme.typography.body1.fontFamily,
         fontSize: theme.typography.body1.fontSize,
         '& figure': {
             margin: 0
         }
     },
-    inheritFontSize: theme?.overrides?.MUIRichTextEditor?.inheritFontSize || {
-        fontSize: "inherit"
+    [`& .${classes.inheritFontSize}`]: {
+        ...applyOverrides(theme, 'inheritFontSize'),
+        fontSize: 'inherit'
     },
-    editor: theme?.overrides?.MUIRichTextEditor?.editor || {},
-    editorContainer: theme?.overrides?.MUIRichTextEditor?.editorContainer || {
+    [`& .${classes.editor}`]: {
+        ...applyOverrides(theme, 'editor')
+    },
+    [`& .${classes.editorContainer}`]: {
+        ...applyOverrides(theme, 'editorContainer'),
         margin: theme.spacing(1, 0, 0, 0),
-        cursor: "text",
-        width: "100%",
+        cursor: 'text',
+        width: '100%',
         padding: theme.spacing(0, 0, 1, 0)
     },
-    editorReadOnly: theme?.overrides?.MUIRichTextEditor?.editorReadOnly || {
-        borderBottom: "none"
+    [`& .${classes.editorReadOnly}`]: {
+        ...applyOverrides(theme, 'editorReadOnly'),
+        borderBottom: 'none'
     },
-    error: theme?.overrides?.MUIRichTextEditor?.error || {
-        borderBottom: "2px solid red"
+    [`& .${classes.error}`]: {
+        ...applyOverrides(theme, 'error'),
+        borderBottom: '2px solid red'
     },
-    hidePlaceholder: theme?.overrides?.MUIRichTextEditor?.hidePlaceholder || {
-        display: "none"
+    [`& .${classes.hidePlaceholder}`]: {
+        ...applyOverrides(theme, 'hidePlaceholder'),
+        display: 'none'
     },
-    placeHolder: theme?.overrides?.MUIRichTextEditor?.placeHolder || {
+    [`& .${classes.placeHolder}`]: {
+        ...applyOverrides(theme, 'placeHolder'),
         color: theme.palette.grey[600],
-        position: "absolute",
-        outline: "none"
+        position: 'absolute',
+        outline: 'none'
     },
-    linkPopover: theme?.overrides?.MUIRichTextEditor?.linkPopover || {
+    [`& .${classes.linkPopover}`]: {
+        ...applyOverrides(theme, 'linkPopover'),
         padding: theme.spacing(2, 2, 2, 2)
     },
-    linkTextField: theme?.overrides?.MUIRichTextEditor?.linkTextField || {
-        width: "100%"
+    [`& .${classes.linkTextField}`]: {
+        ...applyOverrides(theme, 'linkTextField'),
+        width: '100%'
     },
-    anchorLink: theme?.overrides?.MUIRichTextEditor?.anchorLink || {},
-    toolbar: theme?.overrides?.MUIRichTextEditor?.toolbar || {},
-    inlineToolbar: theme?.overrides?.MUIRichTextEditor?.inlineToolbar || {
-        maxWidth: "180px",
-        position: "absolute",
-        padding: "5px",
+    [`& .${classes.anchorLink}`]: {
+        ...applyOverrides(theme, 'anchorLink')
+    },
+    [`& .${classes.toolbar}`]: {
+        ...applyOverrides(theme, 'toolbar')
+    },
+    [`& .${classes.inlineToolbar}`]: {
+        ...applyOverrides(theme, 'inlineToolbar'),
+        maxWidth: '180px',
+        position: 'absolute',
+        padding: '5px',
         zIndex: 10
     }
-})
+}));
 
 const blockRenderMap = Immutable.Map({
     'blockquote': {
@@ -235,7 +276,7 @@ const useEditorState = (props: IMUIRichTextEditorProps) => {
         }
     ]
     if (props.decorators) {
-        props.decorators.forEach(deco => decorators.push({
+        props.decorators.forEach((deco: any) => decorators.push({
             strategy: (contentBlock: any, callback: any) => {
                 findDecoWithRegex(deco.regex, contentBlock, callback)
             },
@@ -249,8 +290,8 @@ const useEditorState = (props: IMUIRichTextEditorProps) => {
         : EditorState.createEmpty(decorator)
 }
 
-const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRichTextEditorProps> = (props, ref) => {
-    const { classes, controls, customControls } = props
+const MUIRichTextEditor: React.ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRichTextEditorProps> = (props, ref) => {
+    const { controls, customControls } = props
 
     const [state, setState] = useState<TMUIRichTextEditorState>({})
     const [focus, setFocus] = useState(false)
@@ -380,7 +421,7 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
         if (!props.autocomplete) {
             return undefined
         }
-        const acArray = props.autocomplete.strategies.filter(ac => ac.triggerChar === chars)
+        const acArray = props.autocomplete.strategies.filter((ac: any) => ac.triggerChar === chars)
         if (acArray.length) {
             return acArray[0]
         }
@@ -628,7 +669,7 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
                 return "handled"
             }
             if (props.keyCommands) {
-                const keyCommand = props.keyCommands.find(comm => comm.name === command)
+                const keyCommand = props.keyCommands.find((comm: any) => comm.name === command)
                 if (keyCommand) {
                     const newState = keyCommand.callback(editorState)
                     handleChange(newState)
@@ -905,8 +946,8 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
 
     const setupStyleMap = () => {
         const customStyleMap = JSON.parse(JSON.stringify(styleRenderMap))
-        props.customControls?.filter(control => control.type === "inline" && control.inlineStyle)
-            .forEach(control => {
+        props.customControls?.filter((control: any) => control.type === "inline" && control.inlineStyle)
+            .forEach((control: any) => {
                 customStyleMap[control.name.toUpperCase()] = control.inlineStyle
             })
         customStyleMapRef.current = customStyleMap
@@ -921,8 +962,8 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
 
     const setupBlockMap = () => {
         const customBlockMap: any = {}
-        props.customControls?.filter(control => control.type === "block" && control.blockWrapper)
-            .forEach(control => {
+        props.customControls?.filter((control: any) => control.type === "block" && control.blockWrapper)
+            .forEach((control: any) => {
                 customBlockMap[control.name.toUpperCase()] = {
                     element: "div",
                     wrapper: control.blockWrapper
@@ -1030,7 +1071,7 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
 
     const keyBindingFn = (e: React.KeyboardEvent<{}>): string | null => {
         if (hasCommandModifier(e) && props.keyCommands) {
-            const comm = props.keyCommands.find(comm => comm.key === e.keyCode)
+            const comm = props.keyCommands.find((comm: any) => comm.key === e.keyCode)
             if (comm) {
                 return comm.name
             }
@@ -1071,7 +1112,7 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
     }
 
     return (
-        <div id={`${editorId}-root`} className={classes.root}>
+        <StyledDiv id={`${editorId}-root`} className={classes.root}>
             <div id={`${editorId}-container`} className={classNames(classes.container, {
                 [classes.inheritFontSize]: props.inheritFontSize
             })}>
@@ -1146,8 +1187,8 @@ const MUIRichTextEditor: ForwardRefRenderFunction<TMUIRichTextEditorRef, IMUIRic
                     />
                     : null}
             </div>
-        </div>
+        </StyledDiv>
     )
 }
 
-export default withStyles(styles, { withTheme: true, name: "MUIRichTextEditor" })(forwardRef(MUIRichTextEditor))
+export default forwardRef(MUIRichTextEditor);

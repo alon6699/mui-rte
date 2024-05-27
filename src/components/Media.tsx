@@ -1,80 +1,92 @@
-import React, { FunctionComponent } from 'react'
-import classNames from 'classnames'
-import { ContentState, ContentBlock } from 'draft-js'
-import { createStyles, withStyles, WithStyles } from '@mui/styles'
-import { Theme } from '@mui/material/styles'
+import React, { FunctionComponent } from 'react';
+import classNames from 'classnames';
+import { ContentState, ContentBlock } from 'draft-js';
+import { styled, Theme } from '@mui/material/styles';
 
-interface IMediaProps extends WithStyles<typeof styles> {
-    block: ContentBlock
-    contentState: ContentState
-    blockProps: any
-    onClick: (block: ContentBlock) => void
+interface IMediaProps {
+    block: ContentBlock;
+    contentState: ContentState;
+    blockProps: any;
+    onClick: (block: ContentBlock) => void;
 }
 
-const styles = ({ shadows }: Theme) => createStyles({
-    root: {
-        margin: "5px 0 1px",
-        outline: "none"
+const PREFIX = 'Media';
+
+const classes = {
+    root: `${PREFIX}-root`,
+    editable: `${PREFIX}-editable`,
+    focused: `${PREFIX}-focused`,
+    centered: `${PREFIX}-centered`,
+    leftAligned: `${PREFIX}-leftAligned`,
+    rightAligned: `${PREFIX}-rightAligned`
+};
+
+const StyledDiv = styled('div')(({ theme }: { theme: Theme }) => ({
+    [`&.${classes.root}`]: {
+        margin: '5px 0 1px',
+        outline: 'none'
     },
-    editable: {
-        cursor: "pointer",
-        "&:hover": {
-            boxShadow: shadows[3]
+    [`&.${classes.editable}`]: {
+        cursor: 'pointer',
+        '&:hover': {
+            boxShadow: theme.shadows[3]
         }
     },
-    focused: {
-        boxShadow: shadows[3]
+    [`&.${classes.focused}`]: {
+        boxShadow: theme.shadows[3]
     },
-    centered: {
-        textAlign: "center"
+    [`&.${classes.centered}`]: {
+        textAlign: 'center'
     },
-    leftAligned: {
-        textAlign: "left"
+    [`&.${classes.leftAligned}`]: {
+        textAlign: 'left'
     },
-    rightAligned: {
-        textAlign: "right"
+    [`&.${classes.rightAligned}`]: {
+        textAlign: 'right'
     }
-})
+}));
 
 const Media: FunctionComponent<IMediaProps> = (props) => {
-    const { url, width, height, alignment, type } = props.contentState.getEntity(props.block.getEntityAt(0)).getData()
-    const { onClick, readOnly, focusKey } = props.blockProps
+    const { url, width, height, alignment, type } = props.contentState.getEntity(props.block.getEntityAt(0)).getData();
+    const { onClick, readOnly, focusKey } = props.blockProps;
 
     const htmlTag = () => {
         const componentProps = {
             src: url,
-            className: classNames(props.classes.root, {
-                [props.classes.editable]: !readOnly,
-                [props.classes.focused]: !readOnly && focusKey === props.block.getKey()
+            className: classNames(classes.root, {
+                [classes.editable]: !readOnly,
+                [classes.focused]: !readOnly && focusKey === props.block.getKey()
             }),
             width: width,
-            height: type === "video" ? "auto" : height,
+            height: type === 'video' ? 'auto' : height,
             onClick: () => {
                 if (readOnly) {
-                    return
+                    return;
                 }
-                onClick(props.block)
+                onClick(props.block);
             }
-        }
+        };
 
-        if (!type || type === "image") {
-            return <img {...componentProps} />
+        if (!type || type === 'image') {
+            return <img {...componentProps} />;
         }
-        if (type === "video") {
-            return <video {...componentProps} autoPlay={false} controls />
+        if (type === 'video') {
+            return <video {...componentProps} autoPlay={false} controls />;
         }
-        return null
-    }
+        return null;
+    };
 
     return (
-        <div className={classNames({
-            [props.classes.centered]: alignment === "center",
-            [props.classes.leftAligned]: alignment === "left",
-            [props.classes.rightAligned]: alignment === "right"
-        })}>
+        <StyledDiv
+            className={classNames({
+                [classes.centered]: alignment === 'center',
+                [classes.leftAligned]: alignment === 'left',
+                [classes.rightAligned]: alignment === 'right'
+            })}
+        >
             {htmlTag()}
-        </div>
-    )
-}
+        </StyledDiv>
+    );
+};
 
-export default withStyles(styles, { withTheme: true })(Media)
+export default Media;

@@ -1,7 +1,6 @@
 import React, { useRef, useState, FunctionComponent, useEffect } from 'react'
 import MUIRichTextEditor, { TMUIRichTextEditorRef, TAsyncAtomicBlockResponse } from '../..'
 import Grid from '@mui/material/Grid'
-import { makeStyles } from '@mui/styles'
 import Popover from '@mui/material/Popover'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
@@ -10,6 +9,7 @@ import BackupIcon from '@mui/icons-material/Backup'
 import DoneIcon from '@mui/icons-material/Done'
 import CloseIcon from '@mui/icons-material/Close'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
+import { styled } from '@mui/material/styles'
 
 interface IUploadImagePopoverProps {
     anchor: TAnchor
@@ -26,19 +26,26 @@ type TUploadImageData = {
 }
 
 type TAnchor = HTMLElement | null
+const PREFIX = 'UploadImagePopover';
 
-const cardPopverStyles = makeStyles({
-    root: {
+const classes = {
+    root: `${PREFIX}-root`,
+    textField: `${PREFIX}-textField`,
+    input: `${PREFIX}-input`
+};
+
+const StyledPopover = styled(Popover)({
+    [`& .${classes.root}`]: {
         padding: 10,
         maxWidth: 350
     },
-    textField: {
-        width: "100%"
+    [`& .${classes.textField}`]: {
+        width: '100%'
     },
-    input: {
-        display: "none"
+    [`& .${classes.input}`]: {
+        display: 'none'
     }
-})
+});
 
 const uploadImageToServer = (file: File) => {
     return new Promise(resolve => {
@@ -70,7 +77,6 @@ const uploadImage = (file: File) => {
 }
 
 const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (props) => {
-    const classes = cardPopverStyles(props)
     const [state, setState] = useState<TUploadImagePopoverState>({
         anchor: null,
         isCancelled: false
@@ -88,7 +94,7 @@ const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (props) 
     }, [props.anchor])
 
     return (
-        <Popover
+        <StyledPopover
             anchorEl={state.anchor}
             open={state.anchor !== null}
             anchorOrigin={{
@@ -150,7 +156,7 @@ const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (props) 
                     </Button>
                 </Grid>
             </Grid>
-        </Popover>
+        </StyledPopover>
     )
 }
 
@@ -182,13 +188,13 @@ const AsyncImageUpload: FunctionComponent = () => {
                         name: "upload-image",
                         icon: <BackupIcon />,
                         type: "callback",
-                        onClick: (_editorState, _name, anchor) => {
+                        onClick: (_editorState:any, _name:any, anchor:any) => {
                             setAnchor(anchor)
                         }
                     }
                 ]}
                 draftEditorProps={{
-                    handleDroppedFiles: (_selectionState, files) => {
+                    handleDroppedFiles: (_selectionState:any, files:any) => {
                         if (files.length && (files[0] as File).name !== undefined) {
                             handleFileUpload(files[0] as File)
                             return "handled"
