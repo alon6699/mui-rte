@@ -161,7 +161,7 @@ const StyledDiv = styled('div')(({ theme }: { theme: Theme & TMUIRichTextEditorS
     },
     [`& .${classes.container}`]: {
         ...applyOverrides(theme, 'container'),
-        margin: theme.spacing(1, 0, 0, 0),
+        margin: 0,
         position: 'relative',
         fontFamily: theme.typography.body1.fontFamily,
         fontSize: theme.typography.body1.fontSize,
