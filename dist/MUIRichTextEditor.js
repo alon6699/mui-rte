@@ -67,12 +67,12 @@ var classes = {
     toolbar: "".concat(PREFIX, "-toolbar"),
     inlineToolbar: "".concat(PREFIX, "-inlineToolbar")
 };
-var applyOverrides = function (theme, component) { var _a, _b; return ((_b = (_a = theme === null || theme === void 0 ? void 0 : theme.overrides) === null || _a === void 0 ? void 0 : _a.MUIRichTextEditor) === null || _b === void 0 ? void 0 : _b[component]) || {}; };
+var applyOverrides = function (theme, component) { var _a, _b, _c; return ((_c = (_b = (_a = theme === null || theme === void 0 ? void 0 : theme.components) === null || _a === void 0 ? void 0 : _a.MUIRichTextEditor) === null || _b === void 0 ? void 0 : _b.styleOverrides) === null || _c === void 0 ? void 0 : _c[component]) || {}; };
 var StyledDiv = (0, material_1.styled)('div')(function (_a) {
     var _b;
     var theme = _a.theme;
     return (_b = {},
-        _b["& .".concat(classes.root)] = __assign({}, applyOverrides(theme, 'root')),
+        _b["&.".concat(classes.root)] = __assign({}, applyOverrides(theme, 'root')),
         _b["& .".concat(classes.container)] = __assign(__assign({}, applyOverrides(theme, 'container')), { margin: theme.spacing(1, 0, 0, 0), position: 'relative', fontFamily: theme.typography.body1.fontFamily, fontSize: theme.typography.body1.fontSize, '& figure': {
                 margin: 0
             } }),

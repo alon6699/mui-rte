@@ -155,22 +155,24 @@ export declare type TMUIRichTextEditorProps = {
 interface IMUIRichTextEditorProps extends TMUIRichTextEditorProps {
 }
 export interface TMUIRichTextEditorStyles {
-    overrides?: {
+    components?: {
         MUIRichTextEditor?: {
-            root?: CSSProperties,
-            container?: CSSProperties,
-            inheritFontSize?: CSSProperties,
-            editor?: CSSProperties,
-            editorContainer?: CSSProperties,
-            editorReadOnly?: CSSProperties,
-            error?: CSSProperties,
-            hidePlaceholder?: CSSProperties,
-            placeHolder?: CSSProperties,
-            linkPopover?: CSSProperties,
-            linkTextField?: CSSProperties,
-            anchorLink?: CSSProperties,
-            toolbar?: CSSProperties,
-            inlineToolbar?: CSSProperties
+            styleOverrides?: {
+                root?: CSSProperties,
+                container?: CSSProperties,
+                inheritFontSize?: CSSProperties,
+                editor?: CSSProperties,
+                editorContainer?: CSSProperties,
+                editorReadOnly?: CSSProperties,
+                error?: CSSProperties,
+                hidePlaceholder?: CSSProperties,
+                placeHolder?: CSSProperties,
+                linkPopover?: CSSProperties,
+                linkTextField?: CSSProperties,
+                anchorLink?: CSSProperties,
+                toolbar?: CSSProperties,
+                inlineToolbar?: CSSProperties
+            }
         }
     }
 }

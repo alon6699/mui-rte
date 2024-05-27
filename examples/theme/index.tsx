@@ -12,34 +12,36 @@ export const defaultTheme: Theme = createTheme({
 })
 
 const muiRteTheme: TMUIRichTextEditorStyles = {
-    overrides: {
+    components: {
         MUIRichTextEditor: {
-            root: {
-                backgroundColor: "#ebebeb",
-            },
-            container: {
-                display: "flex",
-                flexDirection: "column-reverse"
-            },
-            editor: {
-                backgroundColor: "#ebebeb",
-                padding: "20px",
-                height: "200px",
-                maxHeight: "200px",
-                overflow: "auto"
-            },
-            toolbar: {
-                borderTop: "1px solid gray",
-                backgroundColor: "#ebebeb"
-            },
-            placeHolder: {
-                backgroundColor: "#ebebeb",
-                paddingLeft: 20,
-                width: "inherit",
-            },
-            anchorLink: {
-                color: "#333333",
-                textDecoration: "underline"
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#ebebeb",
+                },
+                container: {
+                    display: "flex",
+                    flexDirection: "column-reverse"
+                },
+                editor: {
+                    backgroundColor: "#ebebeb",
+                    padding: "20px",
+                    height: "200px",
+                    maxHeight: "200px",
+                    overflow: "auto"
+                },
+                toolbar: {
+                    borderTop: "1px solid gray",
+                    backgroundColor: "#ebebeb"
+                },
+                placeHolder: {
+                    backgroundColor: "#ebebeb",
+                    paddingLeft: 20,
+                    width: "inherit",
+                },
+                anchorLink: {
+                    color: "#333333",
+                    textDecoration: "underline"
+                }
             }
         }
     }

@@ -109,22 +109,24 @@ type TStateOffset = {
 }
 
 interface TMUIRichTextEditorStyles {
-    overrides?: {
+    components?: {
         MUIRichTextEditor?: {
-            root?: CSSProperties,
-            container?: CSSProperties,
-            inheritFontSize?: CSSProperties,
-            editor?: CSSProperties,
-            editorContainer?: CSSProperties,
-            editorReadOnly?: CSSProperties,
-            error?: CSSProperties,
-            hidePlaceholder?: CSSProperties,
-            placeHolder?: CSSProperties,
-            linkPopover?: CSSProperties,
-            linkTextField?: CSSProperties,
-            anchorLink?: CSSProperties,
-            toolbar?: CSSProperties,
-            inlineToolbar?: CSSProperties
+            styleOverrides?: {
+                root?: CSSProperties,
+                container?: CSSProperties,
+                inheritFontSize?: CSSProperties,
+                editor?: CSSProperties,
+                editorContainer?: CSSProperties,
+                editorReadOnly?: CSSProperties,
+                error?: CSSProperties,
+                hidePlaceholder?: CSSProperties,
+                placeHolder?: CSSProperties,
+                linkPopover?: CSSProperties,
+                linkTextField?: CSSProperties,
+                anchorLink?: CSSProperties,
+                toolbar?: CSSProperties,
+                inlineToolbar?: CSSProperties
+            }
         }
     }
 }
@@ -151,10 +153,10 @@ const classes = {
 const applyOverrides = (
     theme: any,
     component: any
-) => theme?.overrides?.MUIRichTextEditor?.[component] || {};
+) => theme?.components?.MUIRichTextEditor?.styleOverrides?.[component] || {};
 
 const StyledDiv = styled('div')(({ theme }: { theme: Theme & TMUIRichTextEditorStyles }) => ({
-    [`& .${classes.root}`]: {
+    [`&.${classes.root}`]: {
         ...applyOverrides(theme, 'root')
     },
     [`& .${classes.container}`]: {
