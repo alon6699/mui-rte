@@ -178,10 +178,10 @@ const StyledDiv = styled('div')(({ theme }: { theme: Theme & TMUIRichTextEditorS
     },
     [`& .${classes.editorContainer}`]: {
         ...applyOverrides(theme, 'editorContainer'),
-        margin: theme.spacing(1, 0, 0, 0),
+        margin: 0,
         cursor: 'text',
         width: '100%',
-        padding: theme.spacing(0, 0, 1, 0)
+        padding: '12px'
     },
     [`& .${classes.editorReadOnly}`]: {
         ...applyOverrides(theme, 'editorReadOnly'),

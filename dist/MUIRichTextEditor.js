@@ -78,7 +78,7 @@ var StyledDiv = (0, material_1.styled)('div')(function (_a) {
             } }),
         _b["& .".concat(classes.inheritFontSize)] = __assign(__assign({}, applyOverrides(theme, 'inheritFontSize')), { fontSize: 'inherit' }),
         _b["& .".concat(classes.editor)] = __assign({}, applyOverrides(theme, 'editor')),
-        _b["& .".concat(classes.editorContainer)] = __assign(__assign({}, applyOverrides(theme, 'editorContainer')), { margin: theme.spacing(1, 0, 0, 0), cursor: 'text', width: '100%', padding: theme.spacing(0, 0, 1, 0) }),
+        _b["& .".concat(classes.editorContainer)] = __assign(__assign({}, applyOverrides(theme, 'editorContainer')), { margin: 0, cursor: 'text', width: '100%', padding: '12px' }),
         _b["& .".concat(classes.editorReadOnly)] = __assign(__assign({}, applyOverrides(theme, 'editorReadOnly')), { borderBottom: 'none' }),
         _b["& .".concat(classes.error)] = __assign(__assign({}, applyOverrides(theme, 'error')), { borderBottom: '2px solid red' }),
         _b["& .".concat(classes.hidePlaceholder)] = __assign(__assign({}, applyOverrides(theme, 'hidePlaceholder')), { display: 'none' }),
