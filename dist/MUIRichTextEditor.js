@@ -73,7 +73,7 @@ var StyledDiv = (0, material_1.styled)('div')(function (_a) {
     var theme = _a.theme;
     return (_b = {},
         _b["&.".concat(classes.root)] = __assign({}, applyOverrides(theme, 'root')),
-        _b["& .".concat(classes.container)] = __assign(__assign({}, applyOverrides(theme, 'container')), { margin: theme.spacing(1, 0, 0, 0), position: 'relative', fontFamily: theme.typography.body1.fontFamily, fontSize: theme.typography.body1.fontSize, '& figure': {
+        _b["& .".concat(classes.container)] = __assign(__assign({}, applyOverrides(theme, 'container')), { margin: 0, position: 'relative', fontFamily: theme.typography.body1.fontFamily, fontSize: theme.typography.body1.fontSize, '& figure': {
                 margin: 0
             } }),
         _b["& .".concat(classes.inheritFontSize)] = __assign(__assign({}, applyOverrides(theme, 'inheritFontSize')), { fontSize: 'inherit' }),
