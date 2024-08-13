@@ -73,21 +73,21 @@ var StyledDiv = (0, material_1.styled)('div')(function (_a) {
     var theme = _a.theme;
     return (_b = {},
         _b["&.".concat(classes.root)] = __assign({}, applyOverrides(theme, 'root')),
-        _b["& .".concat(classes.container)] = __assign(__assign({}, applyOverrides(theme, 'container')), { margin: 0, position: 'relative', fontFamily: theme.typography.body1.fontFamily, fontSize: theme.typography.body1.fontSize, '& figure': {
+        _b["& .".concat(classes.container)] = __assign({ margin: 0, position: 'relative', fontFamily: theme.typography.body1.fontFamily, fontSize: theme.typography.body1.fontSize, '& figure': {
                 margin: 0
-            } }),
-        _b["& .".concat(classes.inheritFontSize)] = __assign(__assign({}, applyOverrides(theme, 'inheritFontSize')), { fontSize: 'inherit' }),
+            } }, applyOverrides(theme, 'container')),
+        _b["& .".concat(classes.inheritFontSize)] = __assign({ fontSize: 'inherit' }, applyOverrides(theme, 'inheritFontSize')),
         _b["& .".concat(classes.editor)] = __assign({}, applyOverrides(theme, 'editor')),
-        _b["& .".concat(classes.editorContainer)] = __assign(__assign({}, applyOverrides(theme, 'editorContainer')), { margin: 0, cursor: 'text', width: '100%', padding: '12px' }),
-        _b["& .".concat(classes.editorReadOnly)] = __assign(__assign({}, applyOverrides(theme, 'editorReadOnly')), { borderBottom: 'none' }),
-        _b["& .".concat(classes.error)] = __assign(__assign({}, applyOverrides(theme, 'error')), { borderBottom: '2px solid red' }),
-        _b["& .".concat(classes.hidePlaceholder)] = __assign(__assign({}, applyOverrides(theme, 'hidePlaceholder')), { display: 'none' }),
-        _b["& .".concat(classes.placeHolder)] = __assign(__assign({}, applyOverrides(theme, 'placeHolder')), { color: theme.palette.grey[600], position: 'absolute', outline: 'none' }),
-        _b["& .".concat(classes.linkPopover)] = __assign(__assign({}, applyOverrides(theme, 'linkPopover')), { padding: theme.spacing(2, 2, 2, 2) }),
-        _b["& .".concat(classes.linkTextField)] = __assign(__assign({}, applyOverrides(theme, 'linkTextField')), { width: '100%' }),
+        _b["& .".concat(classes.editorContainer)] = __assign({ margin: 0, cursor: 'text', width: '100%', padding: '12px' }, applyOverrides(theme, 'editorContainer')),
+        _b["& .".concat(classes.editorReadOnly)] = __assign({ borderBottom: 'none' }, applyOverrides(theme, 'editorReadOnly')),
+        _b["& .".concat(classes.error)] = __assign({ borderBottom: '2px solid red' }, applyOverrides(theme, 'error')),
+        _b["& .".concat(classes.hidePlaceholder)] = __assign({ display: 'none' }, applyOverrides(theme, 'hidePlaceholder')),
+        _b["& .".concat(classes.placeHolder)] = __assign({ color: theme.palette.grey[600], position: 'absolute', outline: 'none' }, applyOverrides(theme, 'placeHolder')),
+        _b["& .".concat(classes.linkPopover)] = __assign({ padding: theme.spacing(2, 2, 2, 2) }, applyOverrides(theme, 'linkPopover')),
+        _b["& .".concat(classes.linkTextField)] = __assign({ width: '100%' }, applyOverrides(theme, 'linkTextField')),
         _b["& .".concat(classes.anchorLink)] = __assign({}, applyOverrides(theme, 'anchorLink')),
         _b["& .".concat(classes.toolbar)] = __assign({}, applyOverrides(theme, 'toolbar')),
-        _b["& .".concat(classes.inlineToolbar)] = __assign(__assign({}, applyOverrides(theme, 'inlineToolbar')), { maxWidth: '180px', position: 'absolute', padding: '5px', zIndex: 10 }),
+        _b["& .".concat(classes.inlineToolbar)] = __assign({ maxWidth: '180px', position: 'absolute', padding: '5px', zIndex: 10 }, applyOverrides(theme, 'inlineToolbar')),
         _b);
 });
 var blockRenderMap = immutable_1.default.Map({

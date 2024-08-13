@@ -160,54 +160,54 @@ const StyledDiv = styled('div')(({ theme }: { theme: Theme & TMUIRichTextEditorS
         ...applyOverrides(theme, 'root')
     },
     [`& .${classes.container}`]: {
-        ...applyOverrides(theme, 'container'),
         margin: 0,
         position: 'relative',
         fontFamily: theme.typography.body1.fontFamily,
         fontSize: theme.typography.body1.fontSize,
         '& figure': {
             margin: 0
-        }
+        },
+        ...applyOverrides(theme, 'container'),
     },
     [`& .${classes.inheritFontSize}`]: {
-        ...applyOverrides(theme, 'inheritFontSize'),
-        fontSize: 'inherit'
+        fontSize: 'inherit',
+        ...applyOverrides(theme, 'inheritFontSize')
     },
     [`& .${classes.editor}`]: {
         ...applyOverrides(theme, 'editor')
     },
     [`& .${classes.editorContainer}`]: {
-        ...applyOverrides(theme, 'editorContainer'),
         margin: 0,
         cursor: 'text',
         width: '100%',
-        padding: '12px'
+        padding: '12px',
+        ...applyOverrides(theme, 'editorContainer')
     },
     [`& .${classes.editorReadOnly}`]: {
-        ...applyOverrides(theme, 'editorReadOnly'),
-        borderBottom: 'none'
+        borderBottom: 'none',
+        ...applyOverrides(theme, 'editorReadOnly')
     },
     [`& .${classes.error}`]: {
-        ...applyOverrides(theme, 'error'),
-        borderBottom: '2px solid red'
+        borderBottom: '2px solid red',
+        ...applyOverrides(theme, 'error')
     },
     [`& .${classes.hidePlaceholder}`]: {
-        ...applyOverrides(theme, 'hidePlaceholder'),
-        display: 'none'
+        display: 'none',
+        ...applyOverrides(theme, 'hidePlaceholder')
     },
     [`& .${classes.placeHolder}`]: {
-        ...applyOverrides(theme, 'placeHolder'),
         color: theme.palette.grey[600],
         position: 'absolute',
-        outline: 'none'
+        outline: 'none',
+        ...applyOverrides(theme, 'placeHolder')
     },
     [`& .${classes.linkPopover}`]: {
-        ...applyOverrides(theme, 'linkPopover'),
-        padding: theme.spacing(2, 2, 2, 2)
+        padding: theme.spacing(2, 2, 2, 2),
+        ...applyOverrides(theme, 'linkPopover')
     },
     [`& .${classes.linkTextField}`]: {
-        ...applyOverrides(theme, 'linkTextField'),
-        width: '100%'
+        width: '100%',
+        ...applyOverrides(theme, 'linkTextField')
     },
     [`& .${classes.anchorLink}`]: {
         ...applyOverrides(theme, 'anchorLink')
@@ -216,11 +216,11 @@ const StyledDiv = styled('div')(({ theme }: { theme: Theme & TMUIRichTextEditorS
         ...applyOverrides(theme, 'toolbar')
     },
     [`& .${classes.inlineToolbar}`]: {
-        ...applyOverrides(theme, 'inlineToolbar'),
         maxWidth: '180px',
         position: 'absolute',
         padding: '5px',
-        zIndex: 10
+        zIndex: 10,
+        ...applyOverrides(theme, 'inlineToolbar')
     }
 }));
 
